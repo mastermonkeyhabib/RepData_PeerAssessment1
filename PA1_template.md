@@ -102,11 +102,13 @@ dataDayOfWeek <- mutate(data, dateObj = as.POSIXct(date)) # convert interval to 
 dataDayOfWeek <- mutate(data, isWeekend = is.weekend(as.POSIXct(date))) # convert interval to string
 weekendData <- filter(dataDayOfWeek, isWeekend == TRUE)
 weekdayData <- filter(dataDayOfWeek, isWeekend == FALSE)
-stepIntervalWeekend <- group_by(weekendData, as.character(interval))  %>% summarize(x=mean(steps, na.rm = TRUE)) 
-stepIntervalWeekday <- group_by(weekdayData, as.character(interval))  %>% summarize(x=mean(steps, na.rm = TRUE)) 
+stepIntervalWeekend <- group_by(weekendData, interval)  %>% summarize(x=mean(steps, na.rm = TRUE)) 
+stepIntervalWeekday <- group_by(weekdayData, interval)  %>% summarize(x=mean(steps, na.rm = TRUE)) 
+colnames(stepIntervalWeekend) <- c("interval","meanSteps")
+colnames(stepIntervalWeekday) <- c("interval","meanSteps")
 par(mfrow=c(2,1))
-plot(stepIntervalWeekend, ylab = "Mean Steps", xlab = "Interval", main = "Weekend Steps", ylim=c(0,250))
-plot(stepIntervalWeekday, ylab = "Mean Steps", xlab = "Interval", main = "Weekday Steps", ylim=c(0,250))
+plot(stepIntervalWeekend, ylab = "Mean Steps", xlab = "Interval", main = "Weekend Steps", ylim=c(0,250), type = "l")
+plot(stepIntervalWeekday, ylab = "Mean Steps", xlab = "Interval", main = "Weekday Steps", ylim=c(0,250), type = "l")
 ```
 
 ![](PA1_template_files/figure-html/step_8-1.png)<!-- -->
